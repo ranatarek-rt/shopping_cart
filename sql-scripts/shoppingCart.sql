@@ -9,7 +9,7 @@ use `shopping_db`;
     CREATE TABLE `category`(
         `id` BIGINT NOT NULL AUTO_INCREMENT,
         `name` VARCHAR(256) NOT NULL,
-        primary key (`id`)
+		 primary key (`id`)
     );
     
     CREATE TABLE `product`(
@@ -21,7 +21,7 @@ use `shopping_db`;
         `inventory_quantity` INT,
         `category_id` BIGINT,
          primary key (`id`),
-        FOREIGN KEY (`category_id`) REFERENCES category(`id`) ON DELETE SET NULL
+         FOREIGN KEY (`category_id`) REFERENCES category(`id`) ON DELETE SET NULL
     );
 
 
