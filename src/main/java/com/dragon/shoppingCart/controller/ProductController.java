@@ -4,7 +4,6 @@ import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.ProductService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +34,7 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public ResponseEntity<ApiResponse>  findById(@PathVariable Long productId){
-        Product product = productService.findById(productId);
+        ProductDto product = productService.findById(productId);
         return ResponseEntity.ok(new ApiResponse("successfully fetched",product));
     }
 

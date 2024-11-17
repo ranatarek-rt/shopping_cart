@@ -1,6 +1,5 @@
 package com.dragon.shoppingCart.service;
 import com.dragon.shoppingCart.entity.Category;
-import com.dragon.shoppingCart.entity.Image;
 import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.exception.ProductNotFoundException;
 import com.dragon.shoppingCart.model.ImageDto;
@@ -11,10 +10,10 @@ import com.dragon.shoppingCart.repository.ProductRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+
 //we can use this lombok annotation for constructor injection
 // instead of doing it , and you should set the value to be injected as final
 //@RequiredArgsConstructor
@@ -86,18 +85,7 @@ public class ProductServiceImpl implements ProductService{
     //find all products
     @Override
     public List<ProductDto> findAll() {
-        List<Product> productList = productRepo.findAll();
-        return productList.stream()
-                .map(product -> {
-                    ProductDto productDto = modelMapper.map(product, ProductDto.class);
-                    productDto.
-                            setImages(imageRepo
-                                    .findAllByProduct(product)
-                                    .stream()
-                                    .map(image->modelMapper.map(image, ImageDto.class)).toList()); // Enrich DTO with images
-                    return productDto;
-                })
-                .toList();
+        return productRepo.findAll().stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override
@@ -131,9 +119,12 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product findById(Long id) {
+    public ProductDto findById(Long id) {
         Optional<Product> product = productRepo.findById(id);
-        return product.orElseThrow(()->new ProductNotFoundException("product not found"));
+        if(product.isPresent()){
+            return modelMapper.map(product.get(),ProductDto.class);
+        }
+        throw new ProductNotFoundException("product not found");
     }
 
     @Override

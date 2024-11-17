@@ -14,7 +14,7 @@ public interface ProductService {
     List<Product> findProductsByName(String productName);
     List<Product> findProductsByBrandAndName(String brand,String productName);
     Long countProductsByBrandAndName(String brand,String productName);
-    Product findById(Long id);
+    ProductDto findById(Long id);
     void deleteProductById(Long id);
     Product updateProduct(ProductDto productDto,Long id);
 
