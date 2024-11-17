@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductService {
     Product addProduct(ProductDto productDto);
-    List<Product> findAll();
+    List<ProductDto> findAll();
     List<Product> findAllProductsByCategory(String category);
     List<Product> findAllProductsByBrand(String brand);
     List<Product> findProductsByCategoryAndBrand(String category,String brand);

@@ -1,14 +1,18 @@
 package com.dragon.shoppingCart.service;
 import com.dragon.shoppingCart.entity.Category;
+import com.dragon.shoppingCart.entity.Image;
 import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.exception.ProductNotFoundException;
+import com.dragon.shoppingCart.model.ImageDto;
 import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.repository.CategoryRepo;
+import com.dragon.shoppingCart.repository.ImageRepo;
 import com.dragon.shoppingCart.repository.ProductRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 //we can use this lombok annotation for constructor injection
@@ -21,11 +25,15 @@ public class ProductServiceImpl implements ProductService{
     ProductRepo productRepo;
     ModelMapper modelMapper;
     CategoryRepo categoryRepo;
+    ImageRepo imageRepo;
     @Autowired
-    ProductServiceImpl(ProductRepo productRepo,ModelMapper modelMapper, CategoryRepo categoryRepo){
+    ProductServiceImpl(ProductRepo productRepo,ModelMapper modelMapper,
+                       CategoryRepo categoryRepo,ImageRepo imageRepo){
         this.productRepo = productRepo;
         this.modelMapper = modelMapper;
         this.categoryRepo = categoryRepo;
+        this.imageRepo = imageRepo;
+
 
     }
     @Override
@@ -77,8 +85,19 @@ public class ProductServiceImpl implements ProductService{
     //*********************** search, get all, getById,DeleteById ********************
     //find all products
     @Override
-    public List<Product> findAll() {
-        return productRepo.findAll();
+    public List<ProductDto> findAll() {
+        List<Product> productList = productRepo.findAll();
+        return productList.stream()
+                .map(product -> {
+                    ProductDto productDto = modelMapper.map(product, ProductDto.class);
+                    productDto.
+                            setImages(imageRepo
+                                    .findAllByProduct(product)
+                                    .stream()
+                                    .map(image->modelMapper.map(image, ImageDto.class)).toList()); // Enrich DTO with images
+                    return productDto;
+                })
+                .toList();
     }
 
     @Override
