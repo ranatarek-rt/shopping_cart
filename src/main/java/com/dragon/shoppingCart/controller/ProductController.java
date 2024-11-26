@@ -40,19 +40,19 @@ public class ProductController {
 
     @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductDto productDto,@PathVariable Long productId){
-         Product product = productService.updateProduct(productDto,productId);
+         ProductDto product = productService.updateProduct(productDto,productId);
         return ResponseEntity.ok(new ApiResponse("updated successfully",product));
     }
 
     @GetMapping("/AllByCategory/{category}")
     public ResponseEntity<ApiResponse> findAllByCat(@PathVariable String category){
-        List<Product> productList = productService.findAllProductsByCategory(category);
+        List<ProductDto> productList = productService.findAllProductsByCategory(category);
         return ResponseEntity.ok(new ApiResponse("successfully fetched",productList));
     }
 
     @GetMapping("/AllByBrand/{brand}")
     public ResponseEntity<ApiResponse> findAllByBrand(@PathVariable String brand){
-        List<Product> productList = productService.findAllProductsByBrand(brand);
+        List<ProductDto> productList = productService.findAllProductsByBrand(brand);
         return ResponseEntity.
                 ok(new ApiResponse("all products are fetched successfully by brand name",productList));
     }

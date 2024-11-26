@@ -2,7 +2,6 @@ package com.dragon.shoppingCart.service;
 import com.dragon.shoppingCart.entity.Category;
 import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.exception.ProductNotFoundException;
-import com.dragon.shoppingCart.model.ImageDto;
 import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.repository.CategoryRepo;
 import com.dragon.shoppingCart.repository.ImageRepo;
@@ -57,7 +56,7 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public Product updateProduct(ProductDto productDto, Long id) {
+    public ProductDto updateProduct(ProductDto productDto, Long id) {
         Product existingProduct = productRepo.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("Product with ID " + id + " not found"));
 
@@ -76,8 +75,9 @@ public class ProductServiceImpl implements ProductService{
             existingProduct.setCategory(category); // Set the category to the product
         }
 
+        Product product = productRepo.save(existingProduct);
         // Save the updated product
-        return productRepo.save(existingProduct);
+        return modelMapper.map(product,ProductDto.class);
     }
 
 
@@ -89,28 +89,28 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> findAllProductsByCategory(String category) {
-        return productRepo.findByCategoryName(category);
+    public List<ProductDto> findAllProductsByCategory(String category) {
+        return productRepo.findByCategoryName(category).stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override
-    public List<Product> findAllProductsByBrand(String brand) {
-        return productRepo.findAllByBrand(brand);
+    public List<ProductDto> findAllProductsByBrand(String brand) {
+        return productRepo.findAllByBrand(brand).stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override
-    public List<Product> findProductsByCategoryAndBrand(String category, String brand) {
-        return productRepo.findAllByCategoryNameAndBrand(category,brand);
+    public List<ProductDto> findProductsByCategoryAndBrand(String category, String brand) {
+        return productRepo.findAllByCategoryNameAndBrand(category,brand).stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override
-    public List<Product> findProductsByName(String productName) {
-        return productRepo.findAllByName(productName);
+    public List<ProductDto> findProductsByName(String productName) {
+        return productRepo.findAllByName(productName).stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override
-    public List<Product> findProductsByBrandAndName(String brand, String productName) {
-        return productRepo.findAllByBrandAndName(brand,productName);
+    public List<ProductDto> findProductsByBrandAndName(String brand, String productName) {
+        return productRepo.findAllByBrandAndName(brand,productName).stream().map(product -> modelMapper.map(product,ProductDto.class)).toList();
     }
 
     @Override

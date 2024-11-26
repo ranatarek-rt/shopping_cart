@@ -8,14 +8,14 @@ import java.util.List;
 public interface ProductService {
     Product addProduct(ProductDto productDto);
     List<ProductDto> findAll();
-    List<Product> findAllProductsByCategory(String category);
-    List<Product> findAllProductsByBrand(String brand);
-    List<Product> findProductsByCategoryAndBrand(String category,String brand);
-    List<Product> findProductsByName(String productName);
-    List<Product> findProductsByBrandAndName(String brand,String productName);
+    List<ProductDto> findAllProductsByCategory(String category);
+    List<ProductDto> findAllProductsByBrand(String brand);
+    List<ProductDto> findProductsByCategoryAndBrand(String category,String brand);
+    List<ProductDto> findProductsByName(String productName);
+    List<ProductDto> findProductsByBrandAndName(String brand,String productName);
     Long countProductsByBrandAndName(String brand,String productName);
     ProductDto findById(Long id);
     void deleteProductById(Long id);
-    Product updateProduct(ProductDto productDto,Long id);
+    ProductDto updateProduct(ProductDto productDto,Long id);
 
 }

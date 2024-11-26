@@ -1,4 +1,6 @@
 package com.dragon.shoppingCart.model;
+
+
 import lombok.*;
 
 @Getter
@@ -6,10 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ImageDto {
-    private Long imageId;
-    private String imageName;
-    private String downloadUrl;
-
-
+public class RemoveItemFromCartDto {
+    private Long productId;
+    private int quantityToReduce;
 }

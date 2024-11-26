@@ -33,4 +33,9 @@ public class GlobalExceptionHandler extends RuntimeException {
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @ExceptionHandler(CartNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleCartNotFoundException(CartNotFoundException ex){
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage(),null),HttpStatus.NOT_FOUND);
+    }
+
 }
