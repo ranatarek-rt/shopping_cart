@@ -1,6 +1,7 @@
 package com.dragon.shoppingCart.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,11 @@ public class Category {
     @Column(name="name")
     private String name;
 
-    @OneToMany
-    private List<Product> productList;
+    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    private List<Product> products;
+
+    public Category(String name) {
+        this.name = name;
+    }
 }

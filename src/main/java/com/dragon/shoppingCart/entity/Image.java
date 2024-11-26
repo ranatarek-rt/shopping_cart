@@ -1,6 +1,7 @@
 package com.dragon.shoppingCart.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,7 +25,7 @@ public class Image {
     @Column(name="file_name")
     private String fileName;
     @Column(name="file_path")
-    private String filePath;
+    private String fileType;
 
     @Column(name="product_image")
     @Lob
