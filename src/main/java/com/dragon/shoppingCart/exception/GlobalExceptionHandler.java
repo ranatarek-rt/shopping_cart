@@ -17,16 +17,16 @@ public class GlobalExceptionHandler extends RuntimeException {
 
 
     @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<String> handleCategoryNotFoundException (CategoryNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiResponse> handleCategoryNotFoundException (CategoryNotFoundException ex) {
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(DuplicateCategoryException.class)
-    public ResponseEntity<String> handleDuplicatedCategoryException (DuplicateCategoryException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiResponse> handleDuplicatedCategoryException (DuplicateCategoryException ex) {
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(ImageNotFoundException.class)
-    public ResponseEntity<String> handleImageNotFoundException (ImageNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ApiResponse> handleImageNotFoundException (ImageNotFoundException ex) {
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
     }
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception ex){
@@ -36,6 +36,11 @@ public class GlobalExceptionHandler extends RuntimeException {
     @ExceptionHandler(CartNotFoundException.class)
     public ResponseEntity<ApiResponse> handleCartNotFoundException(CartNotFoundException ex){
         return new ResponseEntity<>(new ApiResponse(ex.getMessage(),null),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(OrderNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleOrderNotFoundException(OrderNotFoundException ex){
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
     }
 
 }

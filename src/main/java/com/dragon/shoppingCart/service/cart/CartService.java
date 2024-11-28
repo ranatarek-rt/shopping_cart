@@ -1,4 +1,4 @@
-package com.dragon.shoppingCart.service;
+package com.dragon.shoppingCart.service.cart;
 import com.dragon.shoppingCart.model.CartDto;
 
 import java.math.BigDecimal;

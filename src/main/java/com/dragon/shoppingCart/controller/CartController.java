@@ -1,7 +1,7 @@
 package com.dragon.shoppingCart.controller;
 import com.dragon.shoppingCart.model.CartDto;
 import com.dragon.shoppingCart.response.ApiResponse;
-import com.dragon.shoppingCart.service.CartService;
+import com.dragon.shoppingCart.service.cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

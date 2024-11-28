@@ -1,8 +1,6 @@
-package com.dragon.shoppingCart.service;
+package com.dragon.shoppingCart.service.cart;
 
-import com.dragon.shoppingCart.entity.CartItem;
 import com.dragon.shoppingCart.model.AddItemToCartDto;
-import com.dragon.shoppingCart.model.CartItemDto;
 import com.dragon.shoppingCart.model.RemoveItemFromCartDto;
 
 public interface CartItemService {

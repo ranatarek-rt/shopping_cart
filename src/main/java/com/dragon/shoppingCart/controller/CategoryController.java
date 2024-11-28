@@ -3,7 +3,7 @@ package com.dragon.shoppingCart.controller;
 import com.dragon.shoppingCart.entity.Category;
 import com.dragon.shoppingCart.model.CategoryDto;
 import com.dragon.shoppingCart.response.ApiResponse;
-import com.dragon.shoppingCart.service.CategoryService;
+import com.dragon.shoppingCart.service.category.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

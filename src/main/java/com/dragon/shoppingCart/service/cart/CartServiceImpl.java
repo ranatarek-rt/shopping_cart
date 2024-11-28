@@ -1,8 +1,7 @@
-package com.dragon.shoppingCart.service;
+package com.dragon.shoppingCart.service.cart;
 import com.dragon.shoppingCart.entity.Cart;
 import com.dragon.shoppingCart.exception.CartNotFoundException;
 import com.dragon.shoppingCart.model.CartDto;
-import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.repository.CartItemRepo;
 import com.dragon.shoppingCart.repository.CartRepo;
 import jakarta.transaction.Transactional;
