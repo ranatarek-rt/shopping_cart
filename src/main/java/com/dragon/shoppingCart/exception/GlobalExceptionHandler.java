@@ -42,5 +42,13 @@ public class GlobalExceptionHandler extends RuntimeException {
     public ResponseEntity<ApiResponse> handleOrderNotFoundException(OrderNotFoundException ex){
         return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleUserNotFoundException(UserNotFoundException ex){
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
+    }
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<ApiResponse> handleDuplicateUserException(DuplicateUserException ex){
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
+    }
 
 }

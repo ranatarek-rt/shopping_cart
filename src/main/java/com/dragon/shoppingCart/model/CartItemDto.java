@@ -5,15 +5,11 @@ import lombok.*;
 
 import java.math.BigDecimal;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class CartItemDto {
-    private Long id;
+    private Long itemId;
     private int quantity;
     private BigDecimal unitPrice;
     private BigDecimal totalPrice;
-    private Long productId;
+    private ProductDto product;
 }

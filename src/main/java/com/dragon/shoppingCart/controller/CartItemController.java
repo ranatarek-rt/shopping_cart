@@ -1,5 +1,7 @@
 package com.dragon.shoppingCart.controller;
+import com.dragon.shoppingCart.entity.Cart;
 import com.dragon.shoppingCart.model.AddItemToCartDto;
+import com.dragon.shoppingCart.model.CartItemDto;
 import com.dragon.shoppingCart.model.RemoveItemFromCartDto;
 import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.cart.CartItemService;
@@ -19,15 +21,19 @@ public class CartItemController {
         this.cartService = cartService;
     }
 
+    @GetMapping("/{cartItemId}")
+    public ResponseEntity<ApiResponse> getCartItemById(@PathVariable Long cartItemId){
+        CartItemDto cartItem = cartItemService.findCartItemById(cartItemId);
+        return ResponseEntity.ok(new ApiResponse("the item is added to cart successfully",cartItem));
+    }
+
+
+
     @PostMapping
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId , @RequestBody AddItemToCartDto addItemToCartDto){
-        if(cartId == null){
-            cartId = cartService.initializeNewCart();
-
-        }
-        cartItemService.addItemToCart(cartId,addItemToCartDto);
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = true) Long userId, @RequestBody AddItemToCartDto addItemToCartDto){
+        Cart cart = cartService.initializeNewCart(userId);
+        cartItemService.addItemToCart(cart.getId(),addItemToCartDto);
         return ResponseEntity.ok(new ApiResponse("the item is added to cart successfully",null));
-
     }
 
     @DeleteMapping("/{cartId}/{productId}/removeAll")

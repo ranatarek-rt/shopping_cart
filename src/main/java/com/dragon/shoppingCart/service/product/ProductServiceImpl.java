@@ -129,11 +129,17 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public void deleteProductById(Long id) {
-        Optional<Product> product = productRepo.findById(id);
-        product.ifPresentOrElse(
-                value -> productRepo.delete(value),
-                () -> { throw new ProductNotFoundException("Product not found"); }
-        );
+        //we can use this commented section if further steps needed in the "product found" or "not found" cases in the future
+//        Optional<Product> product = productRepo.findById(id);
+//        product.ifPresentOrElse(
+//                value -> productRepo.delete(value),
+//                () -> { throw new ProductNotFoundException("Product not found"); }
+//        );
+
+        Product product = productRepo
+                .findById(id)
+                .orElseThrow(()->new ProductNotFoundException("Product not found"));
+        productRepo.delete(product);
     }
 
 

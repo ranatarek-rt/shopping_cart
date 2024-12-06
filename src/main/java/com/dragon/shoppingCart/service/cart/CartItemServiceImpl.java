@@ -6,10 +6,13 @@ import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.exception.CartNotFoundException;
 import com.dragon.shoppingCart.exception.ProductNotFoundException;
 import com.dragon.shoppingCart.model.AddItemToCartDto;
+import com.dragon.shoppingCart.model.CartItemDto;
+import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.model.RemoveItemFromCartDto;
 import com.dragon.shoppingCart.repository.CartItemRepo;
 import com.dragon.shoppingCart.repository.CartRepo;
 import com.dragon.shoppingCart.repository.ProductRepo;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +21,20 @@ public class CartItemServiceImpl implements CartItemService{
     CartItemRepo cartItemRepo;
     ProductRepo productRepo;
     CartRepo cartRepo;
+    ModelMapper modelMapper;
     //inject cart item repo
     @Autowired
-    CartItemServiceImpl(CartItemRepo cartItemRepo,ProductRepo productRepo,CartRepo cartRepo){
+    CartItemServiceImpl(CartItemRepo cartItemRepo,ProductRepo productRepo,CartRepo cartRepo,ModelMapper modelMapper){
         this.cartItemRepo = cartItemRepo;
         this.productRepo = productRepo;
         this.cartRepo = cartRepo;
+        this.modelMapper = modelMapper;
+    }
+
+    @Override
+    public CartItemDto findCartItemById(Long cartItemId) {
+        CartItem cartItem  = cartItemRepo.findById(cartItemId).orElseThrow(()->new CartNotFoundException("no item found"));
+        return modelMapper.map(cartItem,CartItemDto.class);
     }
 
     @Override

@@ -1,4 +1,5 @@
 package com.dragon.shoppingCart.service.cart;
+import com.dragon.shoppingCart.entity.Cart;
 import com.dragon.shoppingCart.model.CartDto;
 
 import java.math.BigDecimal;
@@ -8,5 +9,5 @@ public interface CartService {
     void emptyCart(Long id);
     BigDecimal getTotalPrice(Long id);
 
-    Long initializeNewCart();
+    Cart initializeNewCart(Long userId);
 }

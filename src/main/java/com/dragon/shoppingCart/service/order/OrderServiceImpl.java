@@ -4,10 +4,12 @@ import com.dragon.shoppingCart.entity.*;
 import com.dragon.shoppingCart.entity.OrderItem;
 import com.dragon.shoppingCart.exception.CartNotFoundException;
 import com.dragon.shoppingCart.exception.OrderNotFoundException;
+import com.dragon.shoppingCart.model.OrderDto;
 import com.dragon.shoppingCart.repository.CartRepo;
 import com.dragon.shoppingCart.repository.OrderRepo;
 import com.dragon.shoppingCart.repository.ProductRepo;
 import com.dragon.shoppingCart.service.cart.CartService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,18 +21,20 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private final ModelMapper modelMapper;
     CartRepo cartRepo;
     OrderRepo orderRepo;
     ProductRepo productRepo;
     CartService cartService;
 
     @Autowired
-    OrderServiceImpl(OrderRepo orderRepo, ProductRepo productRepo, CartRepo cartRepo, CartService cartService){
+    OrderServiceImpl(OrderRepo orderRepo, ProductRepo productRepo, CartRepo cartRepo, CartService cartService, ModelMapper modelMapper){
 
         this.orderRepo = orderRepo;
         this.productRepo = productRepo;
         this.cartRepo = cartRepo;
         this.cartService = cartService;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -78,14 +82,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Order getOrder(Long orderId) {
-        return orderRepo.findById(orderId)
+    public OrderDto getOrder(Long orderId) {
+        return orderRepo.findById(orderId).map(order->modelMapper.map(order, OrderDto.class))
                 .orElseThrow(()-> new OrderNotFoundException("there is no order found with id "+ orderId));
     }
 
     @Override
-    public List<Order> getAllOrdersByUserId(Long userId) {
-       return orderRepo.findByUser_UserId(userId);
+    public List<OrderDto> getAllOrdersByUserId(Long userId) {
+       return orderRepo.findByUser_UserId(userId).stream().map(order->modelMapper.map(order,OrderDto.class)).toList();
     }
 
 }
