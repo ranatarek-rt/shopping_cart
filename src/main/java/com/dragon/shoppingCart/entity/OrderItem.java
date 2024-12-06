@@ -9,7 +9,6 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
 @Entity
 @Table(name="order_item")
 public class OrderItem {
@@ -33,4 +32,10 @@ public class OrderItem {
     @JoinColumn(name="product_id")
     private Product product;
 
+    public OrderItem(BigDecimal price, int quantity, Order order, Product product) {
+        this.price = price;
+        this.quantity = quantity;
+        this.order = order;
+        this.product = product;
+    }
 }

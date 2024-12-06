@@ -15,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
-@Table(name="order")
+@Table(name="orders")
 public class Order {
 
     @Id
@@ -35,5 +35,19 @@ public class Order {
 
     @OneToMany(mappedBy = "order",cascade =CascadeType.ALL,orphanRemoval = true)
     private Set<OrderItem> orderItemList = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public void addOrderItem(OrderItem orderItem){
+        orderItemList.add(orderItem);
+        orderItem.setOrder(this);
+    }
+
+    public void removeOrderItem(OrderItem orderItem){
+        orderItemList.remove(orderItem);
+        orderItem.setOrder(null);
+    }
 
 }

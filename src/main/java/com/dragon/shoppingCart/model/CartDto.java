@@ -4,15 +4,11 @@ import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
-
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Data
 public class CartDto {
-    private Long id;
+    private Long cartId;
     private BigDecimal totalAmount;
-    private List<CartItemDto> cartItems;
+    private Set<CartItemDto> cartItems;
 }

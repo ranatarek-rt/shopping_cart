@@ -1,4 +1,4 @@
-package com.dragon.shoppingCart.service;
+package com.dragon.shoppingCart.service.image;
 
 import com.dragon.shoppingCart.entity.Image;
 import com.dragon.shoppingCart.entity.Product;

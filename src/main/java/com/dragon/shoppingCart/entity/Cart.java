@@ -30,6 +30,10 @@ public class Cart {
     private Set<CartItem> cartItems = new HashSet<>();
 
 
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public void removeItem(CartItem item){
         cartItems.remove(item);
         item.setCart(null);

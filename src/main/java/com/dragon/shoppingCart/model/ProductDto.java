@@ -4,13 +4,9 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
 @Data
 public class ProductDto {
+    private Long productId;
     private String name;
     private String brand;
     private BigDecimal price;

@@ -3,7 +3,7 @@ import com.dragon.shoppingCart.entity.Image;
 import com.dragon.shoppingCart.exception.ImageNotFoundException;
 import com.dragon.shoppingCart.model.ImageDto;
 import com.dragon.shoppingCart.response.ApiResponse;
-import com.dragon.shoppingCart.service.ImageService;
+import com.dragon.shoppingCart.service.image.ImageService;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;

@@ -4,7 +4,9 @@ use `shopping_db`;
     CREATE TABLE  `cart`(
         `id` BIGINT NOT NULL AUTO_INCREMENT,
         `total_amount` DECIMAL(19,2),
-         PRIMARY KEY (`id`)
+        `user_id` BIGINT,
+         PRIMARY KEY (`id`),
+         FOREIGN KEY (`user_id`) references user(`id`) ON DELETE CASCADE
     );
 
     CREATE TABLE `cart_item`(
