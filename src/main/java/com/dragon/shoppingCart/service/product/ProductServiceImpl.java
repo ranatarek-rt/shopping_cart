@@ -1,6 +1,7 @@
 package com.dragon.shoppingCart.service.product;
 import com.dragon.shoppingCart.entity.Category;
 import com.dragon.shoppingCart.entity.Product;
+import com.dragon.shoppingCart.exception.DuplicatedProductException;
 import com.dragon.shoppingCart.exception.ProductNotFoundException;
 import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.repository.CategoryRepo;
@@ -36,6 +37,10 @@ public class ProductServiceImpl implements ProductService{
     }
     @Override
     public Product addProduct(ProductDto productDto) {
+        Optional<Product> existingProduct = productRepo.findByNameAndBrand(productDto.getName(),productDto.getBrand());
+        if(existingProduct.isPresent()){
+            throw new DuplicatedProductException("there is a product exists with same name and brand");
+        }
         // Find the category by name
         Optional<Category> optionalCat = categoryRepo.findCategoryByName(productDto.getCategory().getName());
         Product product = modelMapper.map(productDto, Product.class);

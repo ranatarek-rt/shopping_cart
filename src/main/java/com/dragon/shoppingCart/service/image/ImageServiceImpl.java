@@ -87,14 +87,15 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Image updateImage(MultipartFile file, Long imageId) {
+    public ImageDto updateImage(MultipartFile file, Long imageId) {
         //we can use the image service method that we created to fetch the image
         Image image = getImageById(imageId);
         try {
             image.setFileName(file.getOriginalFilename());
             image.setProductImage(new SerialBlob(file.getBytes()));
             image.setFileType(file.getContentType());
-            return imageRepo.save(image);
+            Image savedImage = imageRepo.save(image);
+            return modelMapper.map(savedImage,ImageDto.class);
         }catch(RuntimeException | IOException | SQLException e){
             throw new RuntimeException("failed to process the image" + e.getMessage());
         }

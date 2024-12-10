@@ -1,22 +1,17 @@
 package com.dragon.shoppingCart.service.cart;
 import com.dragon.shoppingCart.entity.Cart;
-import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.entity.User;
 import com.dragon.shoppingCart.exception.CartNotFoundException;
 import com.dragon.shoppingCart.exception.UserNotFoundException;
 import com.dragon.shoppingCart.model.CartDto;
-import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.repository.CartItemRepo;
 import com.dragon.shoppingCart.repository.CartRepo;
 import com.dragon.shoppingCart.repository.UserRepo;
-import com.dragon.shoppingCart.service.product.ProductService;
 import jakarta.transaction.Transactional;
-import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
 public class CartServiceImpl implements CartService{
@@ -59,6 +54,12 @@ public class CartServiceImpl implements CartService{
         cartRepo.deleteById(id);
     }
 
+    @Transactional
+    @Override
+    public void deleteCart(Long id){
+        cartRepo.findById(id).orElseThrow(()->new CartNotFoundException("there is no cart exists with id "+ id));
+        cartRepo.deleteById(id);
+    }
     @Override
     public BigDecimal getTotalPrice(Long id) {
         CartDto cart = getCartById(id);

@@ -49,9 +49,9 @@ public class ImageController {
 
 
     @PutMapping("/update/{imageId}")
-    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId,@RequestBody MultipartFile file) {
+    public ResponseEntity<ApiResponse> updateImage(@PathVariable Long imageId,@RequestParam MultipartFile file) {
         try {
-            Image updatedImage = imageService.updateImage(file, imageId);
+            ImageDto updatedImage = imageService.updateImage(file, imageId);
             return ResponseEntity.ok(new ApiResponse("Image updated successfully", updatedImage));
         } catch (ImageNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)

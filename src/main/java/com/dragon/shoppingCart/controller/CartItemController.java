@@ -24,7 +24,7 @@ public class CartItemController {
     @GetMapping("/{cartItemId}")
     public ResponseEntity<ApiResponse> getCartItemById(@PathVariable Long cartItemId){
         CartItemDto cartItem = cartItemService.findCartItemById(cartItemId);
-        return ResponseEntity.ok(new ApiResponse("the item is added to cart successfully",cartItem));
+        return ResponseEntity.ok(new ApiResponse("the cart items are fetched successfully",cartItem));
     }
 
 

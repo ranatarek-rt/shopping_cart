@@ -26,7 +26,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<ApiResponse> createUserOrder(@RequestParam Long userId){
-        Order order = orderService.placeOrder(userId);
+        OrderDto order = orderService.placeOrder(userId);
         return ResponseEntity.ok(new ApiResponse("the ordered is created successfully",order));
     }
 

@@ -22,7 +22,7 @@ public class GlobalExceptionHandler extends RuntimeException {
     }
     @ExceptionHandler(DuplicateCategoryException.class)
     public ResponseEntity<ApiResponse> handleDuplicatedCategoryException (DuplicateCategoryException ex) {
-        return new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.CONFLICT);
     }
     @ExceptionHandler(ImageNotFoundException.class)
     public ResponseEntity<ApiResponse> handleImageNotFoundException (ImageNotFoundException ex) {
@@ -48,7 +48,11 @@ public class GlobalExceptionHandler extends RuntimeException {
     }
     @ExceptionHandler(DuplicateUserException.class)
     public ResponseEntity<ApiResponse> handleDuplicateUserException(DuplicateUserException ex){
-        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.NOT_FOUND);
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.CONFLICT);
+    }
+    @ExceptionHandler(DuplicatedProductException.class)
+    public ResponseEntity<ApiResponse> handleDuplicateProductException(DuplicatedProductException ex){
+        return  new ResponseEntity<>(new ApiResponse(ex.getMessage(),null), HttpStatus.CONFLICT);
     }
 
 }
