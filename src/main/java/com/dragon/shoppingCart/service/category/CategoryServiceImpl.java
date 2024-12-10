@@ -1,10 +1,12 @@
 package com.dragon.shoppingCart.service.category;
 
 import com.dragon.shoppingCart.entity.Category;
+import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.exception.CategoryNotFoundException;
 import com.dragon.shoppingCart.exception.DuplicateCategoryException;
 import com.dragon.shoppingCart.model.CategoryDto;
 import com.dragon.shoppingCart.repository.CategoryRepo;
+import com.dragon.shoppingCart.repository.ProductRepo;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,8 +19,10 @@ public class CategoryServiceImpl implements CategoryService{
     ModelMapper modelMapper;
     //inject category repo
     CategoryRepo categoryRepo;
-    CategoryServiceImpl(CategoryRepo categoryRepo, ModelMapper modelMapper){
+    ProductRepo productRepo;
+    CategoryServiceImpl(CategoryRepo categoryRepo, ModelMapper modelMapper,ProductRepo productRepo){
         this.categoryRepo = categoryRepo;
+        this.productRepo = productRepo;
         this.modelMapper = modelMapper;
     }
 
@@ -64,11 +68,13 @@ public class CategoryServiceImpl implements CategoryService{
     @Override
     public void deleteCategory(Long id) {
         //find the cat by id to be updated if not found throw exception
-        categoryRepo.findById(id).orElseThrow(()->
+        Category category = categoryRepo.findById(id).orElseThrow(()->
                 new CategoryNotFoundException("the cat with id "+ id +" does not exist in the DB"));
         /*if the category found in the database this will
          delete the category and set the catId to null inside the product table*/
 
+         List<Product> productList  = productRepo.findByCategoryName(category.getName());
+         productRepo.deleteAll(productList);
          categoryRepo.deleteById(id);
 
     }

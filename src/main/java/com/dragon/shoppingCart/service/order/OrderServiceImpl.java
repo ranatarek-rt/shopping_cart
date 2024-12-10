@@ -9,6 +9,8 @@ import com.dragon.shoppingCart.repository.CartRepo;
 import com.dragon.shoppingCart.repository.OrderRepo;
 import com.dragon.shoppingCart.repository.ProductRepo;
 import com.dragon.shoppingCart.service.cart.CartService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,30 +28,48 @@ public class OrderServiceImpl implements OrderService {
     OrderRepo orderRepo;
     ProductRepo productRepo;
     CartService cartService;
+    EntityManager entityManager;
 
     @Autowired
-    OrderServiceImpl(OrderRepo orderRepo, ProductRepo productRepo, CartRepo cartRepo, CartService cartService, ModelMapper modelMapper){
+    OrderServiceImpl(OrderRepo orderRepo, ProductRepo productRepo, CartRepo cartRepo, CartService cartService, ModelMapper modelMapper,EntityManager entityManager){
 
         this.orderRepo = orderRepo;
         this.productRepo = productRepo;
         this.cartRepo = cartRepo;
         this.cartService = cartService;
         this.modelMapper = modelMapper;
+        this.entityManager = entityManager;
     }
 
+    @Transactional
     @Override
-    public Order placeOrder(Long userId) {
+    public OrderDto placeOrder(Long userId) {
         Cart cart = cartRepo
                 .findCartByUser_UserId(userId)
-                .orElseThrow(()-> new CartNotFoundException("there is no cart found for that user id "+ userId));
+                .orElseThrow(() -> new CartNotFoundException("there is no cart found for that user id " + userId));
+
+        // Create order and associated items
         Order order = createOrder(cart);
-        List<OrderItem> orderItemList = createOrderItems(order,cart);
+        List<OrderItem> orderItemList = createOrderItems(order, cart);
         order.setOrderItemList(new HashSet<>(orderItemList));
         order.setTotalAmount(calculateTotalAmountOfOrder(orderItemList));
         Order savedOrder = orderRepo.save(order);
-        cartService.emptyCart(cart.getId());
-        return savedOrder;
+
+        // Clear cart items
+        cart.getCartItems().clear();
+
+        // Remove cart from user
+        User user = cart.getUser();
+        if (user != null) {
+            user.setCart(null); // Disassociate the cart from the user
+        }
+
+        // Delete the cart
+        cartRepo.delete(cart);
+
+        return modelMapper.map(savedOrder, OrderDto.class);
     }
+
 
 
     private Order createOrder(Cart cart){

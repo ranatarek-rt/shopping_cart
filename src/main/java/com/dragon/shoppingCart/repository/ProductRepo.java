@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepo extends JpaRepository<Product,Long> {
@@ -14,4 +15,6 @@ public interface ProductRepo extends JpaRepository<Product,Long> {
             List<Product> findAllByName(String name);
             List<Product> findAllByBrandAndName(String brand,String name);
             Long countAllByBrandAndName(String brand,String name);
+            Optional<Product> findByNameAndBrand(String name,String brand);
+
 }

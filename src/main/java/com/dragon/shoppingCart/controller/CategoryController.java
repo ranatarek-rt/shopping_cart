@@ -39,9 +39,9 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{catId}")
-    public void deleteCategory(@PathVariable Long catId){
+    public ResponseEntity<ApiResponse>  deleteCategory(@PathVariable Long catId){
         categoryService.deleteCategory(catId);
-
+        return ResponseEntity.ok(new ApiResponse("The category is deleted successfully and all products listed under this category",null));
     }
     @PutMapping("/{catId}")
     public ResponseEntity<ApiResponse> update(@RequestBody CategoryDto categoryDto, @PathVariable Long catId){

@@ -31,6 +31,12 @@ public class CartController {
         return ResponseEntity.ok(new ApiResponse("the cart is emptied successfully",null));
     }
 
+    @DeleteMapping("/deleteById/{cartId}")
+    public ResponseEntity<ApiResponse> deleteCartBydId(@PathVariable Long cartId){
+        cartService.deleteCart(cartId);
+        return ResponseEntity.ok(new ApiResponse("the cart is deleted successfully",null));
+    }
+
     @GetMapping("/price/{cartId}")
     public ResponseEntity<ApiResponse> getTotalPrice(@PathVariable Long cartId){
         BigDecimal totalPrice = cartService.getTotalPrice(cartId);

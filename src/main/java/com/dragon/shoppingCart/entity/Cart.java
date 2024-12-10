@@ -1,7 +1,4 @@
 package com.dragon.shoppingCart.entity;
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
