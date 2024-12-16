@@ -6,6 +6,7 @@ import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.product.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ProductController {
     }
 
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductDto productDto){
         Product product = productService.addProduct(productDto);
@@ -38,6 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("successfully fetched",product));
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse> updateProduct(@RequestBody ProductDto productDto,@PathVariable Long productId){
          ProductDto product = productService.updateProduct(productDto,productId);
@@ -56,6 +59,8 @@ public class ProductController {
         return ResponseEntity.
                 ok(new ApiResponse("all products are fetched successfully by brand name",productList));
     }
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{productId}")
     public void deleteProduct(@PathVariable Long productId){
         productService.deleteProductById(productId);

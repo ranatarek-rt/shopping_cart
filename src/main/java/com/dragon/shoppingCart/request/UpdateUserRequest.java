@@ -1,4 +1,4 @@
-package com.dragon.shoppingCart.model;
+package com.dragon.shoppingCart.request;
 
 import lombok.*;
 

@@ -1,11 +1,13 @@
 package com.dragon.shoppingCart.controller;
 import com.dragon.shoppingCart.entity.Cart;
+import com.dragon.shoppingCart.entity.User;
 import com.dragon.shoppingCart.model.AddItemToCartDto;
 import com.dragon.shoppingCart.model.CartItemDto;
 import com.dragon.shoppingCart.model.RemoveItemFromCartDto;
 import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.cart.CartItemService;
 import com.dragon.shoppingCart.service.cart.CartService;
+import com.dragon.shoppingCart.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class CartItemController {
     CartItemService cartItemService;
     CartService cartService;
+    UserService userService;
     @Autowired
     CartItemController(CartItemService cartItemService,CartService cartService){
         this.cartItemService = cartItemService;
@@ -30,8 +33,9 @@ public class CartItemController {
 
 
     @PostMapping
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = true) Long userId, @RequestBody AddItemToCartDto addItemToCartDto){
-        Cart cart = cartService.initializeNewCart(userId);
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long userId, @RequestBody AddItemToCartDto addItemToCartDto){
+        User user = userService.getAuthenticatedUser();
+        Cart cart = cartService.initializeNewCart(user);
         cartItemService.addItemToCart(cart.getId(),addItemToCartDto);
         return ResponseEntity.ok(new ApiResponse("the item is added to cart successfully",null));
     }

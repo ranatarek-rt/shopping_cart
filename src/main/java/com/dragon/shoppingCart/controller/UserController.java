@@ -1,6 +1,6 @@
 package com.dragon.shoppingCart.controller;
-import com.dragon.shoppingCart.model.UpdateUserRequest;
-import com.dragon.shoppingCart.model.CreateUserRequest;
+import com.dragon.shoppingCart.request.UpdateUserRequest;
+import com.dragon.shoppingCart.request.CreateUserRequest;
 import com.dragon.shoppingCart.model.UserDto;
 import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.user.UserService;
