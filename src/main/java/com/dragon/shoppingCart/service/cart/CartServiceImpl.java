@@ -67,10 +67,10 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Cart initializeNewCart(Long userId){
-        User user = userRepo.findById(userId)
-                .orElseThrow(()->new UserNotFoundException("there is no user found with that id "+ userId));
-        return cartRepo.findCartByUser_UserId(userId).orElseGet(()->{
+    public Cart initializeNewCart(User sentUser){
+        User user = userRepo.findById(sentUser.getUserId())
+                .orElseThrow(()->new UserNotFoundException("there is no user found with that id "+ sentUser.getUserId()));
+        return cartRepo.findCartByUser_UserId(sentUser.getUserId()).orElseGet(()->{
                 Cart newCart = new Cart();
                 newCart.setUser(user);
                 return cartRepo.save(newCart);
