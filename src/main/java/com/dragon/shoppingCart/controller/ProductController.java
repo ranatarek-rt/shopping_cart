@@ -4,6 +4,8 @@ import com.dragon.shoppingCart.entity.Product;
 import com.dragon.shoppingCart.model.ProductDto;
 import com.dragon.shoppingCart.response.ApiResponse;
 import com.dragon.shoppingCart.service.product.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/product")
+
 public class ProductController {
     ProductService productService;
     @Autowired
@@ -28,6 +31,13 @@ public class ProductController {
         return ResponseEntity.ok(new ApiResponse("successfully added a new product",product));
     }
 
+    @Operation(summary = "get all products",
+            description = "Retrieve all users")
+    @ApiResponses(value = {
+
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(responseCode = "200", description = "all users are fetched successfully"),
+
+    })
     @GetMapping
     public ResponseEntity<ApiResponse> findAll(){
         List<ProductDto> productList = productService.findAll();
