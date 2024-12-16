@@ -1,4 +1,6 @@
 package com.dragon.shoppingCart.service.user;
+import com.dragon.shoppingCart.data.RoleRepo;
+import com.dragon.shoppingCart.entity.Role;
 import com.dragon.shoppingCart.entity.User;
 import com.dragon.shoppingCart.exception.DuplicateCategoryException;
 import com.dragon.shoppingCart.exception.UserNotFoundException;
@@ -6,6 +8,7 @@ import com.dragon.shoppingCart.request.UpdateUserRequest;
 import com.dragon.shoppingCart.request.CreateUserRequest;
 import com.dragon.shoppingCart.model.UserDto;
 import com.dragon.shoppingCart.repository.UserRepo;
+import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -22,12 +25,14 @@ public class UserServiceImpl implements UserService{
     UserRepo userRepo ;
     ModelMapper modelMapper;
     PasswordEncoder passwordEncoder;
+    RoleRepo roleRepo;
 
     @Autowired
-    UserServiceImpl(UserRepo userRepo, ModelMapper modelMapper,PasswordEncoder passwordEncoder){
+    UserServiceImpl(UserRepo userRepo, ModelMapper modelMapper, PasswordEncoder passwordEncoder, RoleRepo roleRepo){
         this.userRepo = userRepo;
         this.modelMapper = modelMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepo = roleRepo;
     }
 
     @Override
@@ -84,5 +89,17 @@ public class UserServiceImpl implements UserService{
         return userRepo.findByEmail(email).orElseThrow(()-> new UserNotFoundException("there is no user authenticated with that email"));
 
     }
+
+    @Transactional
+    @Override
+    public void assignRoleToUser(Long userId, String roleName) {
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Role role = roleRepo.findByName(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+        user.getRoles().add(role);
+        userRepo.save(user);
+    }
+
 
 }

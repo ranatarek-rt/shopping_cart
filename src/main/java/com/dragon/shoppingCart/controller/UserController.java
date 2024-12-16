@@ -1,4 +1,5 @@
 package com.dragon.shoppingCart.controller;
+import com.dragon.shoppingCart.request.RoleRequest;
 import com.dragon.shoppingCart.request.UpdateUserRequest;
 import com.dragon.shoppingCart.request.CreateUserRequest;
 import com.dragon.shoppingCart.model.UserDto;
@@ -44,6 +45,15 @@ public class UserController {
     public ResponseEntity<ApiResponse> updateUser(@RequestBody UpdateUserRequest updateUserRequest,@RequestParam Long userId){
         UserDto user = userService.updateUser(updateUserRequest,userId);
         return ResponseEntity.ok(new ApiResponse("the user is updated successfully",user));
+    }
+
+
+    @PostMapping("/{userId}/roles")
+    public ResponseEntity<ApiResponse> assignRoleToUser(
+            @PathVariable Long userId,
+            @RequestBody RoleRequest roleRequest) {
+        userService.assignRoleToUser(userId, roleRequest.getName());
+        return ResponseEntity.ok(new ApiResponse("Role assigned successfully",null));
     }
 
 }

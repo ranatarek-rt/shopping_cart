@@ -4,6 +4,7 @@ import com.dragon.shoppingCart.entity.User;
 import com.dragon.shoppingCart.request.UpdateUserRequest;
 import com.dragon.shoppingCart.request.CreateUserRequest;
 import com.dragon.shoppingCart.model.UserDto;
+import jakarta.transaction.Transactional;
 
 public interface UserService {
 
@@ -14,4 +15,6 @@ public interface UserService {
 
     User getAuthenticatedUser();
 
+    @Transactional
+    void assignRoleToUser(Long userId, String roleName);
 }
